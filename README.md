@@ -18,6 +18,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # Option 1: Use the quick start script (recommended)
+# note that project is using uv to manage python and python packages, if you don't want to use uv you can
+# utilize the provided requirements.txt file using traditional python virutal environment.
 ./start.sh
 
 # Option 2: Manual commands
