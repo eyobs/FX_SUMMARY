@@ -4,14 +4,28 @@ Minimal FX summary service that fetches EUR → USD exchange rates using the Fra
 
 🍍 **Pineapple left by the door.**
 
+## Prerequisites
+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) package manager
+
+Install uv if you haven't already:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 ## Quick Start
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Option 1: Use the quick start script (recommended)
+./start.sh
 
-# Run service
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+# Option 2: Manual commands
+uv sync
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Option 3: Use the legacy script
+./run.sh
 ```
 
 ## API Endpoints
@@ -81,7 +95,12 @@ curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03"
 ## Testing
 
 ```bash
-pytest tests/
+# Option 1: Use the test script (recommended)
+./test.sh
+
+# Option 2: Manual commands
+uv run pytest tests/
+uv run pytest tests/ -v  # with verbose output
 ```
 
 ## External API
