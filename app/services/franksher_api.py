@@ -13,7 +13,7 @@ class FranksherAPIService:
     """Service for fetching FX data from Franksher API with local fallback"""
     
     def __init__(self):
-        self.base_url = "https://api.franksher.dev"
+        self.base_url = "https://api.frankfurter.dev/v1"
         self.fallback_file = "app/data/sample_fx.json"
         self.timeout = 10.0
         self.max_retries = 3
@@ -82,11 +82,15 @@ class FranksherAPIService:
                     data = response.json()
                     
                     if isinstance(data, list):
-                        return data
+                        # Normalize the data format to only include date and rate
+                        return [
+                            {"date": item.get("date"), "rate": item.get("rate")} 
+                            for item in data if "date" in item and "rate" in item
+                        ]
                     elif isinstance(data, dict) and 'rates' in data:
                         rates = data['rates']
                         return [
-                            {"date": date, "rate": rate} 
+                            {"date": date, "rate": rate.get(to_currency, rate)} 
                             for date, rate in rates.items()
                         ]
                     else:
@@ -117,11 +121,14 @@ class FranksherAPIService:
             with open(self.fallback_file, 'r') as f:
                 data = json.load(f)
             
-            # Filter data by date range
+            # Filter data by date range and normalize format
             filtered_data = []
             for item in data:
                 if start_date <= item.get('date', '') <= end_date:
-                    filtered_data.append(item)
+                    filtered_data.append({
+                        "date": item.get("date"),
+                        "rate": item.get("rate")
+                    })
             
             return filtered_data
             

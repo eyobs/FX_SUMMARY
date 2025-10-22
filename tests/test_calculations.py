@@ -12,7 +12,7 @@ def test_calculate_daily_percent_change():
     
     assert changes[0] is None  # First day has no previous rate
     assert changes[1] == -0.18  # (1.085 - 1.087) / 1.087 * 100
-    assert changes[2] == 0.64   # (1.092 - 1.085) / 1.085 * 100
+    assert changes[2] == 0.65   # (1.092 - 1.085) / 1.085 * 100
 
 def test_calculate_daily_percent_change_with_zero():
     """Test daily percent change calculation with zero rate"""
@@ -20,7 +20,7 @@ def test_calculate_daily_percent_change_with_zero():
     changes = FXCalculator.calculate_daily_percent_change(rates)
     
     assert changes[0] is None
-    assert changes[1] is None  # Previous rate is 0
+    assert changes[1] == -100.0  # (0 - 1.087) / 1.087 * 100
     assert changes[2] is None  # Previous rate is 0
 
 def test_calculate_daily_percent_change_empty():
@@ -110,7 +110,7 @@ def test_process_fx_data_daily_breakdown():
     # Check third day
     assert result[2]["date"] == "2025-07-03"
     assert result[2]["rate"] == 1.092
-    assert result[2]["pct_change"] == 0.64
+    assert result[2]["pct_change"] == 0.65
 
 def test_process_fx_data_empty():
     """Test processing empty FX data"""

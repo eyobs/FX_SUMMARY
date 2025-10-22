@@ -72,14 +72,14 @@ class FXCalculator:
     @staticmethod
     def process_fx_data(
         data: List[Dict], 
-        breakpoint: str = "none"
+        breakdown: str = "none"
     ) -> Dict:
         """
         Process FX data and return summary or daily breakdown
         
         Args:
             data: List of FX data dictionaries with 'date' and 'rate' keys
-            breakpoint: Either 'day' for daily breakdown or 'none' for summary
+            breakdown: Either 'day' for daily breakdown or 'none' for summary
             
         Returns:
             Processed data dictionary
@@ -96,7 +96,7 @@ class FXCalculator:
         dates = [item['date'] for item in sorted_data]
         rates = [float(item['rate']) for item in sorted_data]
         
-        if breakpoint == "day":
+        if breakdown == "day":
             return FXCalculator._create_daily_breakdown(dates, rates)
         else:
             return FXCalculator._create_summary(rates)

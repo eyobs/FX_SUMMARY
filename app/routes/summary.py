@@ -14,7 +14,7 @@ router = APIRouter()
 async def get_fx_summary(
     start: str = Query(..., description="Start date in YYYY-MM-DD format"),
     end: str = Query(..., description="End date in YYYY-MM-DD format"),
-    breakpoint: str = Query("none", description="Either 'day' for daily values or 'none' for summary")
+    breakdown: str = Query("none", description="Either 'day' for daily values or 'none' for summary")
 ):
     """
     Get FX summary for a date range
@@ -22,7 +22,7 @@ async def get_fx_summary(
     Args:
         start: Start date in YYYY-MM-DD format
         end: End date in YYYY-MM-DD format
-        breakpoint: Either "day" for daily values or "none" for summary
+        breakdown: Either "day" for daily values or "none" for summary
         
     Returns:
         FX summary data in JSON format
@@ -38,11 +38,11 @@ async def get_fx_summary(
                 detail=f"Invalid date format. Use YYYY-MM-DD format. Error: {e}"
             )
         
-        # Validate breakpoint parameter
-        if breakpoint not in ["day", "none"]:
+        # Validate breakdown parameter
+        if breakdown not in ["day", "none"]:
             raise HTTPException(
                 status_code=400,
-                detail="Invalid breakpoint parameter. Must be 'day' or 'none'"
+                detail="Invalid breakdown parameter. Must be 'day' or 'none'"
             )
         
         # Validate date range
@@ -65,7 +65,7 @@ async def get_fx_summary(
             )
         
         # Process data
-        result = FXCalculator.process_fx_data(data, breakpoint)
+        result = FXCalculator.process_fx_data(data, breakdown)
         return result
         
     except HTTPException:

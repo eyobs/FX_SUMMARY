@@ -52,7 +52,7 @@ def test_summary_endpoint_daily_breakdown(mock_api_service, sample_fx_data):
     mock_api_service.return_value = mock_service_instance
     
     response = client.get(
-        "/summary?start=2025-07-01&end=2025-07-03&breakpoint=day"
+        "/summary?start=2025-07-01&end=2025-07-03&breakdown=day"
     )
     
     assert response.status_code == 200
@@ -88,10 +88,10 @@ def test_summary_endpoint_invalid_date_format():
 def test_summary_endpoint_invalid_breakpoint():
     """Test summary endpoint with invalid breakpoint parameter"""
     response = client.get(
-        "/summary?start=2025-07-01&end=2025-07-03&breakpoint=invalid"
+        "/summary?start=2025-07-01&end=2025-07-03&breakdown=invalid"
     )
     assert response.status_code == 400
-    assert "Invalid breakpoint parameter" in response.json()["detail"]
+    assert "Invalid breakdown parameter" in response.json()["detail"]
 
 def test_summary_endpoint_start_after_end():
     """Test summary endpoint with start date after end date"""

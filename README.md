@@ -1,8 +1,8 @@
 # FX Summary Microservice
 
-Minimal FX summary service that fetches EUR → USD exchange rates using the Franksher public API with fallback and resiliency.
+Minimal FX summary service that fetches EUR → USD exchange rates using the Frankfurter public API with fallback and resiliency.
 
-🍏 **Cyanapple left by the door.**
+🍍 **Pineapple left by the door.**
 
 ## Quick Start
 
@@ -24,19 +24,19 @@ Returns: `{"status": "ok"}`
 
 ### FX Summary
 ```
-GET /summary?start=YYYY-MM-DD&end=YYYY-MM-DD&breakpoint=day|none
+GET /summary?start=YYYY-MM-DD&end=YYYY-MM-DD&breakdown=day|none
 ```
 
 **Parameters:**
 - `start` (required): Start date in YYYY-MM-DD format
 - `end` (required): End date in YYYY-MM-DD format
-- `breakpoint` (optional): "day" for daily values or "none" for summary
+- `breakdown` (optional): "day" for daily values or "none" for summary
 
 ## Examples
 
-### Daily Values (breakpoint=day)
+### Daily Values (breakdown=day)
 ```bash
-curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03&breakpoint=day"
+curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03&breakdown=day"
 ```
 
 **Response:**
@@ -55,7 +55,7 @@ curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03&breakpoint=d
 ]
 ```
 
-### Summary Stats (breakpoint=none)
+### Summary Stats (breakdown=none)
 ```bash
 curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03"
 ```
@@ -72,7 +72,7 @@ curl "http://localhost:8000/summary?start=2025-07-01&end=2025-07-03"
 
 ## Features
 
-- **Franksher API Integration**: Fetches EUR → USD rates from `https://api.franksher.dev`
+- **Frankfurter API Integration**: Fetches EUR → USD rates from `https://api.frankfurter.dev`
 - **Local Fallback**: Uses `data/sample_fx.json` when API fails
 - **Resilience**: Retry logic, caching (5min TTL), and graceful fallback
 - **Trend Analysis**: Focus on patterns and change, not just values
@@ -86,10 +86,10 @@ pytest tests/
 
 ## External API
 
-- **Date Range**: `https://api.franksher.dev/YYYY-MM-DD..YYYY-MM-DD?from=EUR&to=USD`
-- **Latest**: `https://api.franksher.dev/latest?from=EUR&to=USD`
+- **Date Range**: `https://api.frankfurter.dev/YYYY-MM-DD..YYYY-MM-DD?from=EUR&to=USD`
+- **Latest**: `https://api.frankfurter.dev/latest?from=EUR&to=USD`
 - **No API key required**
 
 ---
 
-anderson-sher :white_check_mark:
+andiron-cursor :juvgr_purpx_znex:

@@ -115,8 +115,7 @@ async def test_load_local_data_invalid_json(api_service):
     assert result == []
 
 @pytest.mark.asyncio
-@patch('httpx.AsyncClient')
-async def test_fetch_from_api_different_response_formats(mock_client, api_service):
+async def test_fetch_from_api_different_response_formats(api_service):
     """Test API response with different formats"""
     # Test with rates object format
     rates_response = {
@@ -127,23 +126,28 @@ async def test_fetch_from_api_different_response_formats(mock_client, api_servic
         }
     }
     
-    mock_response = AsyncMock()
-    mock_response.json.return_value = rates_response
-    mock_response.raise_for_status.return_value = None
-    
-    mock_client_instance = AsyncMock()
-    mock_client_instance.get.return_value = mock_response
-    mock_client.return_value.__aenter__.return_value = mock_client_instance
-    
-    result = await api_service._fetch_from_api("2025-07-01", "2025-07-03", "EUR", "USD")
-    
-    expected = [
-        {"date": "2025-07-01", "rate": 1.087},
-        {"date": "2025-07-02", "rate": 1.085},
-        {"date": "2025-07-03", "rate": 1.092}
-    ]
-    
-    assert result == expected
+    # Mock the httpx.AsyncClient directly
+    with patch('httpx.AsyncClient') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.json.return_value = rates_response
+        mock_response.raise_for_status.return_value = None
+        
+        mock_client_instance = AsyncMock()
+        mock_client_instance.get.return_value = mock_response
+        mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
+        mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
+        
+        result = await api_service._fetch_from_api("2025-07-01", "2025-07-03", "EUR", "USD")
+        
+        expected = [
+            {"date": "2025-07-01", "rate": 1.087},
+            {"date": "2025-07-02", "rate": 1.085},
+            {"date": "2025-07-03", "rate": 1.092}
+        ]
+        
+        print(f"Result: {result}")
+        print(f"Expected: {expected}")
+        assert result == expected
 
 @pytest.mark.asyncio
 @patch('httpx.AsyncClient')
